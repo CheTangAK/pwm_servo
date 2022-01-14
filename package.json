@@ -1,0 +1,29 @@
+{
+  "name": "pwm_servo",
+  "description": "pwm servo package",
+  "description_zh": "pwm servo package",  
+  "enable": "PKG_USING_PWM_SERVO", 
+  "keywords": [
+    "servo",
+    "pwm"
+  ],
+  "category": "peripherals",
+  "author": {
+    "name": "TangCheukYu",
+    "email": "cytangar@connect.ust.hk",
+    "github": "CheTangAK"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/CheTangAK/pwm_servo",
+  "icon": "unknown",
+  "homepage": "unknown",
+  "doc": "unknown",
+  "site": [
+    {
+      "version": "latest",
+      "URL": "https://github.com/CheTangAK/pwm_servo.git",
+      "filename": "Null for git package",
+      "VER_SHA": "main"
+    }
+  ]
+}

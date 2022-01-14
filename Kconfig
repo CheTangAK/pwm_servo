@@ -1,0 +1,84 @@
+# Kconfig file for package pwm_servo
+
+menuconfig PKG_USING_PWM_SERVO
+	bool "pwm servo package"
+    default n
+	
+if PKG_USING_PWM_SERVO
+	
+	config PKG_PWM_SERVO_PATH
+        string
+        default "/custom_packages/peripherals/pwm_servo"
+		
+	choice
+        prompt "Version"
+        default PKG_USING_PWM_SERVO_LATEST_VERSION
+        help
+            Select the package version
+
+        config PKG_USING_PWM_SERVO_LATEST_VERSION
+            bool "latest"
+    endchoice
+	
+	config PKG_SERVO_USING_KCONFIG
+        bool "Setup servo in menuconfig"
+        default n
+		
+	if PKG_SERVO_USING_KCONFIG
+	
+		config PKG_USING_SERVO_1
+			bool "Use servo 1"
+			default n
+	
+		if PKG_USING_SERVO_1
+			
+			config PKG_PWM_SERVO_1_PWM_NAME
+				string "Name of the pwm device"
+				default "pwm2"
+			
+			config PKG_PWM_SERVO_1_PWM_CHANNEL
+				int "Number of the pwm channel"
+				default 0
+			
+			config PKG_PWM_SERVO_1_FREQUENCY
+				int "frequency of the pwm (Hz)"
+				default 50
+				
+			config PKG_PWM_SERVO_1_MIN_POS_WIDTH
+				int "Pulse width of pwm at the minimum position (ns)"
+				default 1000000
+			
+			config PKG_PWM_SERVO_1_MAX_POS_WIDTH
+				int "Pulse width of pwm at the maximum position (ns)"
+				default 2000000
+		endif
+				
+		config PKG_USING_SERVO_2
+			bool "Use servo 2"
+			default n
+		
+		if PKG_USING_SERVO_2
+			
+			config PKG_PWM_SERVO_2_PWM_NAME
+				string "Name of the pwm device"
+				default "pwm2"
+			
+			config PKG_PWM_SERVO_2_PWM_CHANNEL
+				int "Number of the pwm channel"
+				default 1
+			
+			config PKG_PWM_SERVO_2_FREQUENCY
+				int "frequency of the pwm (Hz)"
+				default 50
+				
+			config PKG_PWM_SERVO_2_MIN_POS_WIDTH
+				int "Pulse width of pwm at the minimum position (ns)"
+				default 1000000
+			
+			config PKG_PWM_SERVO_2_MAX_POS_WIDTH
+				int "Pulse width of pwm at the maximum position (ns)"
+				default 2000000
+				
+		endif
+	endif
+endif
