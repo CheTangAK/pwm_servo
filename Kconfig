@@ -1,29 +1,37 @@
-# Kconfig file for package pwm_servo
 
+# Kconfig file for package pwm_servo
 menuconfig PKG_USING_PWM_SERVO
-	bool "pwm servo package"
+    bool "pwm servo package"
     default n
-	
+
 if PKG_USING_PWM_SERVO
-	
-	config PKG_PWM_SERVO_PATH
+
+    config PKG_PWM_SERVO_PATH
         string
         default "/custom_packages/peripherals/pwm_servo"
-		
-	choice
+
+    choice
         prompt "Version"
         default PKG_USING_PWM_SERVO_LATEST_VERSION
         help
             Select the package version
 
+        config PKG_USING_PWM_SERVO_V100
+            bool "v1.0.0"
+
         config PKG_USING_PWM_SERVO_LATEST_VERSION
             bool "latest"
     endchoice
+          
+    config PKG_PWM_SERVO_VER
+       string
+       default "v1.0.0"    if PKG_USING_PWM_SERVO_V100
+       default "latest"    if PKG_USING_PWM_SERVO_LATEST_VERSION
 	
 	config PKG_SERVO_USING_KCONFIG
         bool "Setup servo in menuconfig"
         default n
-		
+	
 	if PKG_SERVO_USING_KCONFIG
 	
 		config PKG_USING_SERVO_1
@@ -82,3 +90,4 @@ if PKG_USING_PWM_SERVO
 		endif
 	endif
 endif
+
