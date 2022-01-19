@@ -50,7 +50,7 @@ if PKG_USING_PWM_SERVO
 			
 			config PKG_PWM_SERVO_1_FREQUENCY
 				int "frequency of the pwm (Hz)"
-				default 50
+				default 300
 				
 			config PKG_PWM_SERVO_1_MIN_POS_WIDTH
 				int "Pulse width of pwm at the minimum position (ns)"
@@ -77,7 +77,7 @@ if PKG_USING_PWM_SERVO
 			
 			config PKG_PWM_SERVO_2_FREQUENCY
 				int "frequency of the pwm (Hz)"
-				default 50
+				default 300
 				
 			config PKG_PWM_SERVO_2_MIN_POS_WIDTH
 				int "Pulse width of pwm at the minimum position (ns)"
