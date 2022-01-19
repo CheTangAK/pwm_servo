@@ -29,7 +29,7 @@ SOFTWARE.
 #include <rtdevice.h>
 
 struct rt_servo{
-	rt_device parent;
+	struct rt_device parent;
 	struct rt_device_pwm* pwm_device;
     rt_uint8_t pwm_channel;
     rt_uint32_t period;

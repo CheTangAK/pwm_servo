@@ -21,9 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifdef PKG_USING_PWM_SERVO
 
 #include "drv_servo.h"
+#ifdef PKG_USING_PWM_SERVO
+
 
 static rt_err_t servo_init(rt_device_t dev){
     rt_servo_t servo_dev = (rt_servo_t) dev;
@@ -68,7 +69,7 @@ static rt_err_t servo_control(rt_device_t dev, int cmd, void *args){
     }
 }
 
-rt_servo_t servo_user_init(char* pwm_name, rt_uint8_t pwm_channel, rt_uint32_t frequency,rt_uint32_t min_pos_width,rt_uint32_t max_pos_width){
+rt_servo_t servo_user_init(char* servo_name,char* pwm_name, rt_uint8_t pwm_channel, rt_uint32_t frequency,rt_uint32_t min_pos_width,rt_uint32_t max_pos_width){
 
     //Check PWM device exists
     struct rt_device_pwm* pwm_device = (struct rt_device_pwm*) rt_device_find(pwm_name);
@@ -76,14 +77,6 @@ rt_servo_t servo_user_init(char* pwm_name, rt_uint8_t pwm_channel, rt_uint32_t f
 
     //Check frequency
     RT_ASSERT(frequency != 0)
-
-    //Check existing servo with same channel
-    rt_uint8_t dev_num = 0;
-    char dev_name[RT_NAME_MAX];
-    rt_sprintf(dev_name, "servo%d", pwm_channel);
-    if(rt_device_find(dev_name)){
-        return RT_NULL;
-    }
 
     rt_servo_t dev_obj = rt_malloc(sizeof(struct rt_servo));
 
@@ -105,8 +98,8 @@ rt_servo_t servo_user_init(char* pwm_name, rt_uint8_t pwm_channel, rt_uint32_t f
         dev_obj->parent.write = servo_write;
         dev_obj->parent.control = servo_control;
 
-		rt_device_register(&(dev_obj->parent), dev_name, RT_DEVICE_FLAG_DEACTIVATE);
-		return (rt_servo_t)rt_device_find(dev_name);
+		rt_device_register(&(dev_obj->parent), servo_name, RT_DEVICE_FLAG_DEACTIVATE);
+		return (rt_servo_t)rt_device_find(servo_name);
     }
     else{
         return RT_NULL;
@@ -116,18 +109,18 @@ rt_servo_t servo_user_init(char* pwm_name, rt_uint8_t pwm_channel, rt_uint32_t f
 #ifdef PKG_SERVO_USING_KCONFIG
 
 #ifdef PKG_USING_SERVO_1
-static rt_servo servo1;
+static rt_servo_t servo1;
 #endif
 #ifdef PKG_USING_SERVO_2
-static rt_servo servo2;
+static  rt_servo_t servo2;
 #endif
 
 static int servo_hw_init(void){
 #ifdef PKG_USING_SERVO_1
-    servo1 = servo_user_init(PKG_PWM_SERVO_1_PWM_NAME,PKG_PWM_SERVO_1_PWM_CHANNEL,PKG_PWM_SERVO_1_FREQUENCY,PKG_PWM_SERVO_1_MIN_POS_WIDTH,PKG_PWM_SERVO_1_MAX_POS_WIDTH);
+    servo1 = servo_user_init("servo0",PKG_PWM_SERVO_1_PWM_NAME,PKG_PWM_SERVO_1_PWM_CHANNEL,PKG_PWM_SERVO_1_FREQUENCY,PKG_PWM_SERVO_1_MIN_POS_WIDTH,PKG_PWM_SERVO_1_MAX_POS_WIDTH);
 #endif
 #ifdef PKG_USING_SERVO_2
-    servo2 = servo_user_init(PKG_PWM_SERVO_2_PWM_NAME,PKG_PWM_SERVO_2_PWM_CHANNEL,PKG_PWM_SERVO_2_FREQUENCY,PKG_PWM_SERVO_2_MIN_POS_WIDTH,PKG_PWM_SERVO_2_MAX_POS_WIDTH);
+    servo2 = servo_user_init("servo1",PKG_PWM_SERVO_2_PWM_NAME,PKG_PWM_SERVO_2_PWM_CHANNEL,PKG_PWM_SERVO_2_FREQUENCY,PKG_PWM_SERVO_2_MIN_POS_WIDTH,PKG_PWM_SERVO_2_MAX_POS_WIDTH);
 #endif
 }
 INIT_DEVICE_EXPORT(servo_hw_init);
